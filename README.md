@@ -82,13 +82,19 @@ Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
 
 ## `Exception`
 
-The signature of the `Scanner`  constructor indicates it throws `FileNotFoundException`:
+In a previous lesson we saw how to create a `Scanner` that reads from the input
+stream referenced by `System.in`.
+
+We can also create a `Scanner` that reads from a file by calling the `Scanner`
+constructor and passing an instance of `File` as a parameter.
+The signature of the `Scanner`  constructor shown below indicates it may
+throw `FileNotFoundException` when a `File` object is passed to the constructor.
 
 ```java
 public Scanner(File source) throws FileNotFoundException
 ```
 
-The `Scanner` constructor will attempt to open the file passed as a parameter,
+The `Scanner` constructor will attempt to open the file
 and an exception is thrown if the file does not exist.
 `FileNotFoundException` is a subclass of `Exception`,
 which means it is a checked exception that must be handled.
@@ -104,8 +110,7 @@ import java.util.Scanner;
 public class FileNotFoundExceptionExample {
 
     public static void readFile() {
-        Scanner input = null;
-        input = new Scanner(new File("data.txt"));  //may throw FileNotFoundException
+        Scanner input = new Scanner(new File("data.txt"));
         String text = input.next();
         System.out.println(text);
     }
@@ -125,20 +130,19 @@ import java.util.Scanner;
 
 public class FileNotFoundExceptionExample {
 
-  public static void readFile() {
-    // try with resources
-    try (Scanner input = new Scanner(new File("data.txt")))
-    {
-      String text = input.next();
-      System.out.println(text);
-    } catch (FileNotFoundException e) {
-      System.out.println("File data.txt not found");
+    public static void readFile() {
+        try {
+            Scanner input = new Scanner(new File("data.txt"));
+            String text = input.next();
+            System.out.println(text);
+        } catch (FileNotFoundException e) {
+            System.out.println("File data.txt not found");
+        }
     }
-  }
 
-  public static void main(String[] args) {
-    readFile();
-  }
+    public static void main(String[] args) {
+        readFile();
+    }
 }
 ```
 
